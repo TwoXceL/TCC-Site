@@ -1,4 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { Footer } from '../components/Footer';
 import { Mail, Phone, MapPin, Send, ArrowRight } from 'lucide-react';
@@ -10,6 +11,17 @@ export const Contact: React.FC = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  const contactHelmet = (
+    <Helmet>
+      <title>Contact The Conscious Collective | Book HR Consulting & Coaching Alberta</title>
+      <meta name="description" content="Get in touch with The Conscious Collective Inc. Book a discovery call with Sheri MacLeod, email hello@theconsciouscollective.ca, or call 587-797-5303. Serving Red Deer and all of Alberta." />
+      <link rel="canonical" href="https://theconsciouscollective.ca/contact" />
+      <meta property="og:title" content="Contact The Conscious Collective | HR & Coaching Alberta" />
+      <meta property="og:description" content="Book a discovery call or send a message. Fractional HR consulting and personal coaching services across Alberta." />
+      <meta property="og:url" content="https://theconsciouscollective.ca/contact" />
+    </Helmet>
+  );
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
@@ -17,6 +29,7 @@ export const Contact: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg">
+      {contactHelmet}
 
       {/* Centered hero header */}
       <motion.div
@@ -40,10 +53,10 @@ export const Contact: React.FC = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.15 }}
-        className="max-w-7xl mx-auto px-4 md:px-20 py-24 grid grid-cols-1 md:grid-cols-2 gap-20 items-start"
+        className="max-w-7xl mx-auto px-4 md:px-20 py-24 grid grid-cols-1 md:grid-cols-2 gap-20 items-stretch"
       >
         {/* Left — contact info */}
-        <div className="space-y-10">
+        <div className="flex flex-col gap-10">
 
           <div className="space-y-8">
             <div className="flex items-start gap-6 group">
@@ -84,7 +97,7 @@ export const Contact: React.FC = () => {
           </div>
 
           {/* Schedule card */}
-          <div className="p-10 bg-primary text-white">
+          <div className="p-10 bg-primary text-white flex-1 flex flex-col justify-center">
             <p className="text-[15px] uppercase tracking-[0.3em] font-bold text-accent mb-4">Book Immediately</p>
             <h4 className="text-2xl font-serif text-white mb-4">Prefer to schedule directly?</h4>
             <p className="text-base font-body text-white/70 leading-relaxed mb-8">
@@ -132,6 +145,21 @@ export const Contact: React.FC = () => {
                 <div className="space-y-2">
                   <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Email Address</label>
                   <input required type="email" className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-2">
+                  <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Phone Number</label>
+                  <input required type="tel" className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Phone Type</label>
+                  <select className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors appearance-none cursor-pointer">
+                    <option value="">Select one</option>
+                    <option value="mobile">Mobile</option>
+                    <option value="landline">Landline</option>
+                  </select>
                 </div>
               </div>
 

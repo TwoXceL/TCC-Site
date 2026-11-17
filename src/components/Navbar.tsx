@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import tccLogo from '../assets/images/tcc-logo-sm.png';
+import tccLogoPng from '../assets/images/tcc-logo-sm.png';
+import tccLogoWebp from '../assets/images/tcc-logo-sm.webp';
 
 const NAV_ITEMS = [
   { name: 'Organizations', path: '/organizations' },
@@ -63,7 +64,10 @@ export const Navbar: React.FC = () => {
     >
       <div className="flex items-center gap-4">
         <Link to="/" className="hover:opacity-80 transition-opacity">
-          <img src={tccLogo} alt="The Conscious Collective" className="h-16 md:h-20 w-auto" />
+          <picture>
+            <source srcSet={tccLogoWebp} type="image/webp" />
+            <img src={tccLogoPng} alt="The Conscious Collective" className="h-16 md:h-20 w-auto" width={240} height={80} />
+          </picture>
         </Link>
       </div>
 

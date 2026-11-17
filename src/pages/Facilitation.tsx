@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { Footer } from '../components/Footer';
 import { CheckCircle2 } from 'lucide-react';
@@ -7,6 +8,17 @@ export const Facilitation: React.FC = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const facilitationHelmet = (
+    <Helmet>
+      <title>Leadership Facilitation & Team Development Workshops Alberta | The Conscious Collective</title>
+      <meta name="description" content="Interactive leadership facilitation, team development workshops, and workplace culture programs for Alberta organizations. Using Working Genius® and MBTI® frameworks to build high-performing teams." />
+      <link rel="canonical" href="https://theconsciouscollective.ca/facilitation" />
+      <meta property="og:title" content="Team Facilitation & Leadership Workshops Alberta | The Conscious Collective" />
+      <meta property="og:description" content="Interactive workshops for leadership, team dynamics, psychological safety, and workplace culture across Alberta." />
+      <meta property="og:url" content="https://theconsciouscollective.ca/facilitation" />
+    </Helmet>
+  );
 
   const topics = [
     "Team Dynamics & Collaboration",
@@ -20,6 +32,7 @@ export const Facilitation: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg">
+      {facilitationHelmet}
 
       {/* Centered hero header */}
       <motion.div

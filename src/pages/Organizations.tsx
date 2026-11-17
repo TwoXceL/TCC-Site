@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { PuzzleGrid } from '../components/PuzzleGrid';
 import tccImage1 from '../assets/images/tcc-image1.webp';
@@ -12,10 +13,18 @@ export const Organizations: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg">
+      <Helmet>
+        <title>Best Fractional HR Consulting in Alberta | The Conscious Collective</title>
+        <meta name="description" content="Looking for the best fractional HR consulting in Alberta? The Conscious Collective delivers senior-level HR advisory, workplace culture strategy, and people solutions for small and mid-sized businesses — without the cost of a full-time HR team." />
+        <link rel="canonical" href="https://theconsciouscollective.ca/organizations" />
+        <meta property="og:title" content="Best Fractional HR Consulting in Alberta | The Conscious Collective" />
+        <meta property="og:description" content="Senior-level HR advisory and workplace culture consulting for Alberta businesses. Fractional HR expertise without the full-time cost." />
+        <meta property="og:url" content="https://theconsciouscollective.ca/organizations" />
+      </Helmet>
       <div className="pt-24">
-        <PuzzleGrid 
+        <PuzzleGrid
           src={tccImage1}
-          title="Strategic HR Consulting & Workplace Culture Advisory"
+          title="Best Fractional HR Consulting in Alberta"
           description="The Conscious Collective provides strategic HR consulting, fractional HR services, and workplace advisory support for small and medium-sized businesses seeking flexible, senior-level HR expertise without the cost of a full-time internal HR team."
           rows={3}
           cols={3}

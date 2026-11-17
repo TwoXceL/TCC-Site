@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -102,6 +103,14 @@ export const Blog: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg">
+      <Helmet>
+        <title>Blog — HR, Coaching & Workplace Culture Insights | The Conscious Collective</title>
+        <meta name="description" content="Insights on fractional HR, relationship coaching, workplace culture, and personal growth from The Conscious Collective. Practical wisdom for Alberta businesses and individuals." />
+        <link rel="canonical" href="https://theconsciouscollective.ca/blog" />
+        <meta property="og:title" content="Blog | The Conscious Collective — HR & Coaching Insights Alberta" />
+        <meta property="og:description" content="Insights on HR, relationship coaching, workplace culture, and personal growth for Alberta businesses and individuals." />
+        <meta property="og:url" content="https://theconsciouscollective.ca/blog" />
+      </Helmet>
       <main className="pt-40 pb-24 px-4 md:px-20 max-w-7xl mx-auto">
 
         {/* Header — centered */}

@@ -3,7 +3,8 @@ import { motion } from 'motion/react';
 import { Mail, Phone, Instagram, Twitter, Linkedin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { TwoExcelBadge } from './TwoExcelBadge';
-import tccLogo from '../assets/images/tcc-logo-sm.png';
+import tccLogoPng from '../assets/images/tcc-logo-sm.png';
+import tccLogoWebp from '../assets/images/tcc-logo-sm.webp';
 
 export const Footer: React.FC = () => {
   return (
@@ -13,7 +14,10 @@ export const Footer: React.FC = () => {
         <div className="space-y-8">
           <div>
             <Link to="/">
-              <img src={tccLogo} alt="The Conscious Collective" className="h-20 w-auto" />
+              <picture>
+                <source srcSet={tccLogoWebp} type="image/webp" />
+                <img src={tccLogoPng} alt="The Conscious Collective" className="h-20 w-auto" width={240} height={80} />
+              </picture>
             </Link>
             <span className="text-sm text-primary/70 mt-3 block font-body">The Conscious Collective Inc.</span>
           </div>

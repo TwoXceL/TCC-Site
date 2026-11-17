@@ -1,4 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { PuzzleGrid } from '../components/PuzzleGrid';
 import tccImage2 from '../assets/images/tcc-image2.webp';
@@ -70,8 +71,16 @@ export const Individuals: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg">
+      <Helmet>
+        <title>Relationship Coaching & Personal Growth Programs Alberta | The Conscious Collective</title>
+        <meta name="description" content="Conscious Coupling™, premarital coaching, and high-performer life coaching for individuals and couples in Alberta. Build deeper connection, better communication, and stronger relationships." />
+        <link rel="canonical" href="https://theconsciouscollective.ca/individuals" />
+        <meta property="og:title" content="Relationship Coaching & Personal Growth Alberta | The Conscious Collective" />
+        <meta property="og:description" content="Conscious Coupling™ and personal growth coaching for singles, couples, and high-performers across Alberta." />
+        <meta property="og:url" content="https://theconsciouscollective.ca/individuals" />
+      </Helmet>
       <div className="pt-24">
-        <PuzzleGrid 
+        <PuzzleGrid
           src={tccImage2}
           title="Relationship Coaching & Conscious Connection"
           description="The Conscious Collective offers personal growth programs and relationship coaching designed to help individuals and couples build healthier foundations, strengthen emotional intelligence, and create deeper connection."

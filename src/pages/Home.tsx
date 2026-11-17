@@ -1,4 +1,5 @@
 ﻿﻿import React, { useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { Hero } from '../components/Hero';
 import sheriPortrait from '../assets/images/sheri-headshot.webp';
@@ -19,6 +20,14 @@ export const Home: React.FC = () => {
 
   return (
     <>
+      <Helmet>
+        <title>The Conscious Collective — Human-Centred HR, Coaching & Facilitation | Alberta</title>
+        <meta name="description" content="The Conscious Collective offers fractional HR consulting, relationship coaching, and leadership facilitation for Alberta businesses and individuals. Human-centred. Strategy-led." />
+        <link rel="canonical" href="https://theconsciouscollective.ca/" />
+        <meta property="og:title" content="The Conscious Collective — Human-Centred HR, Coaching & Facilitation" />
+        <meta property="og:description" content="Where personal transformation and professional expansion meet. Fractional HR consulting, relationship coaching, and facilitation across Alberta." />
+        <meta property="og:url" content="https://theconsciouscollective.ca/" />
+      </Helmet>
       <Hero />
 
       <div className="relative z-10 flex flex-col gap-0 bg-bg">
@@ -64,11 +73,14 @@ export const Home: React.FC = () => {
               transition={{ duration: 1 }}
               className="relative aspect-[4/5] overflow-hidden rounded-sm group"
             >
-              <img 
-                src={sheriPortrait} 
+              <img
+                src={sheriPortrait}
                 alt="Sheri, Founder"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 referrerPolicy="no-referrer"
+                width={800}
+                height={1000}
+                loading="lazy"
               />
               <div className="absolute inset-0 bg-accent/10 mix-blend-multiply" />
             </motion.div>

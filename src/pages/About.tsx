@@ -1,4 +1,5 @@
 ﻿﻿import React, { useEffect, useState } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Footer } from '../components/Footer';
@@ -51,6 +52,14 @@ export const About: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg">
+      <Helmet>
+        <title>About Sheri MacLeod & The Conscious Collective | HR & Coaching Alberta</title>
+        <meta name="description" content="Meet Sheri MacLeod, founder of The Conscious Collective Inc. — a Red Deer, Alberta HR consultant and relationship coach helping businesses and individuals grow through empathy, strategy, and conscious leadership." />
+        <link rel="canonical" href="https://theconsciouscollective.ca/about" />
+        <meta property="og:title" content="About The Conscious Collective | HR Consulting & Coaching Alberta" />
+        <meta property="og:description" content="Sheri MacLeod founded The Conscious Collective to bridge workplace strategy and human experience. Learn our story, values, and approach." />
+        <meta property="og:url" content="https://theconsciouscollective.ca/about" />
+      </Helmet>
       <main className="pb-24">
 
         {/* Centered hero header */}
