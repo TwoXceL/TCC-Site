@@ -26,6 +26,7 @@ const About = lazy(() => import('./pages/About').then((m) => ({ default: m.About
 const Contact = lazy(() => import('./pages/Contact').then((m) => ({ default: m.Contact })));
 const Blog = lazy(() => import('./pages/Blog').then((m) => ({ default: m.Blog })));
 const BlogPost = lazy(() => import('./pages/BlogPost').then((m) => ({ default: m.BlogPost })));
+const NotFound = lazy(() => import('./pages/NotFound').then((m) => ({ default: m.NotFound })));
 
 const Router = import.meta.env.BASE_URL !== '/' ? HashRouter : BrowserRouter;
 
@@ -52,6 +53,7 @@ export default function App() {
             <Route path="/services/:id" element={<ServiceDetail />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </Suspense>
       </main>

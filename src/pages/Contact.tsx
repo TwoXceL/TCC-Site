@@ -2,10 +2,20 @@
 import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { Footer } from '../components/Footer';
-import { Mail, Phone, MapPin, Send, ArrowRight } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, ArrowRight, Loader2, AlertCircle } from 'lucide-react';
+import { submitToHubSpot } from '../lib/hubspot';
 
 export const Contact: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    service: 'Strategic HR Consulting',
+    message: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -22,9 +32,32 @@ export const Contact: React.FC = () => {
     </Helmet>
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    const result = await submitToHubSpot({
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      service: formData.service,
+      message: formData.message,
+      source: 'contact_form',
+    });
+
+    setIsSubmitting(false);
+
+    if (result.success) {
+      setSubmitted(true);
+    } else {
+      setErrorMessage(result.error || 'Something went wrong. Please try again or reach out directly.');
+    }
   };
 
   return (
@@ -57,7 +90,6 @@ export const Contact: React.FC = () => {
       >
         {/* Left — contact info */}
         <div className="flex flex-col gap-10">
-
           <div className="space-y-8">
             <div className="flex items-start gap-6 group">
               <div className="w-12 h-12 rounded-sm border border-primary/10 flex items-center justify-center group-hover:bg-accent group-hover:text-white group-hover:border-accent transition-all flex-shrink-0">
@@ -107,7 +139,7 @@ export const Contact: React.FC = () => {
               href="https://scheduler.zoom.us/sheri-macleod"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-accent text-white text-[15px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-primary transition-all rounded-sm"
+              className="inline-flex items-center justify-center gap-2 w-full px-6 py-4 bg-accent text-white text-[15px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-primary transition-all rounded-sm cursor-pointer"
             >
               Schedule Zoom Session <ArrowRight size={14} />
             </a>
@@ -126,9 +158,19 @@ export const Contact: React.FC = () => {
                 <Send size={24} />
               </div>
               <h3 className="text-3xl font-serif text-primary mb-3">Message Sent</h3>
-              <p className="text-base font-body text-primary/70 leading-relaxed">
-                Thank you for reaching out. We will respond within 48 hours to begin the conversation.
+              <p className="text-base font-body text-primary/70 leading-relaxed max-w-md mx-auto mb-6">
+                Thank you for reaching out, {formData.name.split(' ')[0] || ''}. We will review your inquiry and respond within 48 hours.
               </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setSubmitted(false);
+                  setFormData({ name: '', email: '', phone: '', service: 'Strategic HR Consulting', message: '' });
+                }}
+                className="text-xs uppercase tracking-[0.2em] text-accent font-bold hover:text-primary transition-colors cursor-pointer"
+              >
+                Send Another Message
+              </button>
             </motion.div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-8">
@@ -137,52 +179,97 @@ export const Contact: React.FC = () => {
                 <p className="text-base font-body text-primary/50">We read every message and respond personally.</p>
               </div>
 
+              {errorMessage && (
+                <div className="p-4 bg-red-50 border border-red-200 text-red-700 text-sm rounded-sm flex items-center gap-3">
+                  <AlertCircle size={18} className="flex-shrink-0" />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Full Name</label>
-                  <input required type="text" className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors" />
+                  <input
+                    required
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Jane Doe"
+                    className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors"
+                  />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Email Address</label>
-                  <input required type="email" className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors" />
+                  <input
+                    required
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="jane@company.com"
+                    className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors"
+                  />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-2">
                   <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Phone Number</label>
-                  <input required type="tel" className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors" />
+                  <input
+                    type="tel"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="(587) 000-0000"
+                    className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors"
+                  />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Phone Type</label>
-                  <select className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors appearance-none cursor-pointer">
-                    <option value="">Select one</option>
-                    <option value="mobile">Mobile</option>
-                    <option value="landline">Landline</option>
+                  <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Service Interest</label>
+                  <select
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors cursor-pointer"
+                  >
+                    <option value="Strategic HR Consulting">Strategic HR Consulting</option>
+                    <option value="Relationship Coaching">Individuals & Relationship Coaching</option>
+                    <option value="Workshops & Speaking">Workshops & Speaking</option>
+                    <option value="General Inquiry">General Inquiry</option>
                   </select>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Reason for Contact</label>
-                <select className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors appearance-none cursor-pointer">
-                  <option>Strategic HR Consulting</option>
-                  <option>Individuals & Relationship Coaching</option>
-                  <option>Workshops & Speaking</option>
-                  <option>General Inquiry</option>
-                </select>
-              </div>
-
-              <div className="space-y-2">
                 <label className="text-[15px] uppercase tracking-[0.2em] font-bold text-primary/50 block">Message</label>
-                <textarea rows={5} required className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors resize-none"></textarea>
+                <textarea
+                  rows={4}
+                  required
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder="Tell us a little bit about your team, your goals, or where you'd like support..."
+                  className="w-full bg-transparent border-b-2 border-primary/10 py-3 focus:border-accent outline-none text-primary font-body text-base transition-colors resize-none"
+                ></textarea>
               </div>
 
               <button
                 type="submit"
-                className="w-full py-5 bg-primary text-white text-[15px] uppercase tracking-[0.3em] font-bold hover:bg-accent transition-all flex items-center justify-center gap-3 rounded-sm"
+                disabled={isSubmitting}
+                className="w-full py-5 bg-primary text-white text-[15px] uppercase tracking-[0.3em] font-bold hover:bg-accent transition-all flex items-center justify-center gap-3 rounded-sm cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Message <ArrowRight size={14} />
+                {isSubmitting ? (
+                  <>
+                    <Loader2 size={16} className="animate-spin" />
+                    <span>Sending to CRM...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Send Message</span>
+                    <ArrowRight size={14} />
+                  </>
+                )}
               </button>
             </form>
           )}
@@ -193,4 +280,3 @@ export const Contact: React.FC = () => {
     </div>
   );
 };
-

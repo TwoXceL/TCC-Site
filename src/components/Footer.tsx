@@ -90,7 +90,13 @@ export const Footer: React.FC = () => {
                 <a href="mailto:hello@theconsciouscollective.ca" className="text-base font-body text-primary/80 hover:text-accent transition-all">hello@theconsciouscollective.ca</a>
               </div>
               <div className="pt-4 mt-2 border-t border-primary/10">
-                <a href="https://www.2xcel.net" target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-105 transition-all duration-300" aria-label="2XceL Digital Media Website">
+                <a
+                  href="https://www.2xcel.net"
+                  target="_blank"
+                  rel="noopener"
+                  className="inline-block hover:scale-105 transition-all duration-300"
+                  aria-label="2XceL Digital Media — Strategy, Automation & Growth"
+                >
                   <TwoExcelBadge width={180} />
                 </a>
               </div>
@@ -99,9 +105,19 @@ export const Footer: React.FC = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center pt-12 border-t border-primary/10 opacity-60">
-        <p className="text-sm uppercase tracking-[0.2em] font-body">theconsciouscollective.ca</p>
-        <p className="text-sm uppercase tracking-[0.2em] mt-4 md:mt-0 font-body">© 2026 The Conscious Collective Inc. All Rights Reserved.</p>
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center pt-12 border-t border-primary/10 opacity-70">
+        <p className="text-xs uppercase tracking-[0.2em] font-body">theconsciouscollective.ca</p>
+        <p className="text-xs uppercase tracking-[0.15em] mt-4 md:mt-0 font-body text-center md:text-right">
+          © 2026 The Conscious Collective Inc. All Rights Reserved. • Site by{' '}
+          <a
+            href="https://www.2xcel.net"
+            target="_blank"
+            rel="noopener"
+            className="hover:text-accent underline underline-offset-4 transition-colors font-semibold"
+          >
+            2XceL Digital Media
+          </a>
+        </p>
       </div>
     </footer>
   );

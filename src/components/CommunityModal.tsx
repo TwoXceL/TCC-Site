@@ -1,6 +1,7 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X } from 'lucide-react';
+import { X, Check, Loader2 } from 'lucide-react';
+import { submitToHubSpot } from '../lib/hubspot';
 
 interface CommunityModalProps {
   isOpen: boolean;
@@ -9,6 +10,31 @@ interface CommunityModalProps {
 }
 
 export const CommunityModal: React.FC<CommunityModalProps> = ({ isOpen, onClose, title }) => {
+  const [email, setEmail] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setIsSubmitting(true);
+    await submitToHubSpot({
+      name: 'Community Member',
+      email,
+      message: `Newsletter opt-in from community modal: ${title}`,
+      source: 'community_modal',
+    });
+
+    setIsSubmitting(false);
+    setSuccess(true);
+    setTimeout(() => {
+      setSuccess(false);
+      setEmail('');
+      onClose();
+    }, 2000);
+  };
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -18,7 +44,7 @@ export const CommunityModal: React.FC<CommunityModalProps> = ({ isOpen, onClose,
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-primary/20 backdrop-blur-md"
+            className="absolute inset-0 bg-primary/20 backdrop-blur-md cursor-pointer"
           />
           
           <motion.div
@@ -29,7 +55,8 @@ export const CommunityModal: React.FC<CommunityModalProps> = ({ isOpen, onClose,
           >
             <button 
               onClick={onClose}
-              className="absolute top-6 right-6 text-primary/40 hover:text-primary transition-colors"
+              className="absolute top-6 right-6 text-primary/40 hover:text-primary transition-colors cursor-pointer"
+              aria-label="Close modal"
             >
               <X size={20} />
             </button>
@@ -44,20 +71,44 @@ export const CommunityModal: React.FC<CommunityModalProps> = ({ isOpen, onClose,
                 leadership, and mindful workspace advisory.
               </p>
 
-              <form className="pt-4 space-y-4" onSubmit={(e) => { e.preventDefault(); onClose(); }}>
-                <input 
-                  type="email" 
-                  placeholder="email@address.com" 
-                  className="w-full bg-white border border-primary/10 px-6 py-4 text-sm text-primary focus:outline-none focus:border-accent transition-colors"
-                  required
-                />
-                <button 
-                  type="submit"
-                  className="w-full bg-accent text-white py-4 text-[15px] uppercase tracking-[0.4em] font-bold hover:bg-primary transition-all"
+              {success ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="py-6 flex flex-col items-center gap-3 text-accent"
                 >
-                  Join Collective
-                </button>
-              </form>
+                  <div className="w-12 h-12 rounded-full bg-accent/10 flex items-center justify-center">
+                    <Check size={24} />
+                  </div>
+                  <p className="text-lg font-serif text-primary">Welcome to the Collective</p>
+                  <p className="text-xs font-body text-primary/60">We have added your email to our private list.</p>
+                </motion.div>
+              ) : (
+                <form className="pt-4 space-y-4" onSubmit={handleSubmit}>
+                  <input 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="email@address.com" 
+                    className="w-full bg-white border border-primary/10 px-6 py-4 text-sm text-primary focus:outline-none focus:border-accent transition-colors"
+                    required
+                  />
+                  <button 
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full bg-accent text-white py-4 text-[15px] uppercase tracking-[0.4em] font-bold hover:bg-primary transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        <span>Joining...</span>
+                      </>
+                    ) : (
+                      'Join Collective'
+                    )}
+                  </button>
+                </form>
+              )}
             </div>
           </motion.div>
         </div>
@@ -65,4 +116,3 @@ export const CommunityModal: React.FC<CommunityModalProps> = ({ isOpen, onClose,
     </AnimatePresence>
   );
 };
-

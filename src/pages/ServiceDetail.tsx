@@ -1,5 +1,6 @@
 ﻿import React, { useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { motion } from 'motion/react';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
 import { services } from '../data/services';
@@ -30,6 +31,15 @@ export const ServiceDetail: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-bg">
+      <Helmet>
+        <title>{`${service.title} | The Conscious Collective`}</title>
+        <meta name="description" content={service.shortDesc} />
+        <link rel="canonical" href={`https://theconsciouscollective.ca/services/${service.id}`} />
+        <meta property="og:title" content={`${service.title} | The Conscious Collective`} />
+        <meta property="og:description" content={service.shortDesc} />
+        <meta property="og:url" content={`https://theconsciouscollective.ca/services/${service.id}`} />
+        <meta property="og:type" content="website" />
+      </Helmet>
       <main className="pb-24">
 
         {/* Centered hero header */}
